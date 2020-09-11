@@ -1,0 +1,163 @@
+/*-----------------------
+    THEME RELATED CSS
+-------------------------*/
+
+
+
+.woocommerce-layout__header-breadcrumbs {
+    display: none;
+}
+.woocommerce-layout__header{
+	display:none!important;
+}
+.woocommerce nav.woo-nav-tab-wrapper {
+    display: none;
+}
+.woocommerce .subsubsub {
+    display: none;
+}
+.welcome-panel {
+    display: none;
+}
+.notice {
+    display: none;
+}
+.wbcr-dan-hide-notice-link {
+    display: none!important;
+}
+div.woocommerce-message {
+    display: none;
+}
+.yoast-settings {
+    display: none;
+}
+.woocommerce-embed-page #screen-meta-links {
+    display: none;
+}
+.subsubsub {
+    display: none;
+}
+#screen-meta-links {
+    display: none;
+}
+.user-admin-color-wrap{
+	display:none;
+}
+.show-admin-bar.user-admin-bar-front-wrap{
+	display:none;
+}
+.user-comment-shortcuts-wrap{
+	display:none;
+}
+#wpseo_meta {
+    display: none;
+}
+#advanced-sortables{
+	display:none;
+}
+#pageparentdiv{
+	display:none;
+}
+#wpfooter {
+    display: none!important;
+}
+.composer-switch {
+    display: none!important;
+}
+
+
+.n2-ss-banner .n2-ss-banner-inner {
+    display: none!important;
+}
+.n2-nav {
+    display: none!important;
+}
+.n2-top-bar .n2-back a {
+    display: none;
+}
+.vc_license-activation-notice{
+	display:none!important;
+}
+#pho_wcpc_box{
+	display:none!important;
+}
+
+#wbcr-factory-adverts-widget{
+	display:none!important;
+}
+.xts-options-header{
+	display:none!important;
+}
+.phoe_video_main{
+	display:none;
+}
+/* Rev Slider 
+#slider_revolution_metabox{
+	display: none!important;
+}
+#rs_overview{
+	display: none!important;
+}
+*/
+#rs_overview_menu{
+	display: none!important;
+}
+#plugin_update_row{
+    display:none!important;
+}
+#plugin_activation_row{
+    display:none!important;
+}
+#plugin_news_row{
+    display:none!important;
+}
+.vc_subnav-fixed {
+    top: 0px!important;
+}
+.nosubsub>table{
+	display: none;
+}
+ .nosubsub > table:first-of-type {
+    display: none!important;
+}
+#wp-content-editor-tools{
+	margin-top:-40px;
+}
+#ed_toolbar{
+	margin-top: -40px;
+}
+.marketplace-suggestions_tab{
+	display:none!important;
+}
+#villatheme-support{
+	display:none!important;
+}
+.mwb_lite_header_content_right{display:none!important;}
+#test{
+	display:none!important;
+}
+.subsubsub{display: block!important;}
+#wp-admin-bar-wp-logo{
+    display: none!important;
+}
+#adminmenuback {
+    position: fixed;
+    top: 0;
+    bottom: -120px;
+    z-index: 1;
+    display: none!important;
+}
+.yith-update-feeds{
+	display:none!important;
+}
+#yith_dashboard_blog_news{
+	display:none!important;
+}
+#dashboard_site_health{
+display:none!important;}
+
+.error{display:none;}
+
+#wcfm-main-content{margin-top:-10%}
+
+#wcfm-header{display:none!important}
