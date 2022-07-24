@@ -1,0 +1,237 @@
+    /*-----------------------
+        THEME RELATED CSS
+    -------------------------*/
+
+
+
+    .woocommerce-layout__header-breadcrumbs {
+        display: none;
+    }
+    .woocommerce-layout__header{
+        display:none!important;
+    }
+    .woocommerce nav.woo-nav-tab-wrapper {
+        display: none;
+    }
+    .woocommerce .subsubsub {
+        display: none;
+    }
+    .welcome-panel {
+        display: none;
+    }
+    .notice {
+        display: none;
+    }
+    .fs-notice{display:none!important}
+    .wbcr-dan-hide-notice-link {
+        display: none!important;
+    }
+    div.woocommerce-message {
+        display: none;
+    }
+    .yoast-settings {
+        display: none;
+    }
+    .woocommerce-embed-page #screen-meta-links {
+        display: none;
+    }
+    .subsubsub {
+        display: none;
+    }
+    #screen-meta-links {
+        display: none;
+    }
+    .user-admin-color-wrap{
+        display:none;
+    }
+    .show-admin-bar.user-admin-bar-front-wrap{
+        display:none;
+    }
+    .user-comment-shortcuts-wrap{
+        display:none;
+    }
+    #wpseo_meta {
+        display: none;
+    }
+    /* #advanced-sortables{
+        display:none;
+    } */
+    #pageparentdiv{
+        display:none;
+    }
+    #wpfooter {
+        display: none!important;
+    }
+    .composer-switch {
+        display: none!important;
+    }
+
+
+    .n2-ss-banner .n2-ss-banner-inner {
+        display: none!important;
+    }
+    .n2-nav {
+        display: none!important;
+    }
+    .n2-top-bar .n2-back a {
+        display: none;
+    }
+    .vc_license-activation-notice{
+        display:none!important;
+    }
+    #pho_wcpc_box{
+        display:none!important;
+    }
+
+    #wbcr-factory-adverts-widget{
+        display:none!important;
+    }
+    .xts-options-header{
+        display:none!important;
+    }
+    .phoe_video_main{
+        display:none;
+    }
+    /* Rev Slider 
+    #slider_revolution_metabox{
+        display: none!important;
+    }
+    #rs_overview{
+        display: none!important;
+    }
+    */
+    #rs_overview_menu{
+        display: none!important;
+    }
+    #plugin_update_row{
+        display:none!important;
+    }
+    #plugin_activation_row{
+        display:none!important;
+    }
+    #plugin_news_row{
+        display:none!important;
+    }
+    .vc_subnav-fixed {
+        top: 0px!important;
+    }
+    .nosubsub>table{
+        display: none;
+    }
+    .nosubsub > table:first-of-type {
+        display: none!important;
+    }
+    #wp-content-editor-tools{
+        margin-top:-40px;
+    }
+    #ed_toolbar{
+        margin-top: -40px;
+    }
+    .marketplace-suggestions_tab{
+        display:none!important;
+    }
+    #villatheme-support{
+        display:none!important;
+    }
+    .mwb_lite_header_content_right{display:none!important;}
+    #test{
+        display:none!important;
+    }
+    .subsubsub{display: block!important;}
+    #wp-admin-bar-wp-logo{
+        display: none!important;
+    }
+    #adminmenuback {
+        position: fixed;
+        top: 0;
+        bottom: -120px;
+        z-index: 1;
+        display: none!important;
+    }
+    .yith-update-feeds{
+        display:none!important;
+    }
+    #yith_dashboard_blog_news{
+        display:none!important;
+    }
+    #dashboard_site_health{
+    display:none!important;}
+
+    .error{display:none;}
+
+    #wcfm-main-content{margin-top:-10%}
+
+    #wcfm-header{display:none!important}
+    #wcfm-main-content {
+        padding: 0!important;
+        padding-bottom: 0px;
+        margin-bottom: -3%!important;
+    }
+
+    @media screen and (max-width: 600px){
+        
+    .auto-fold #adminmenu {
+        top: 33px!important;
+    }
+    }
+    .zorem-layout__header{display:none!important;}
+    label.tab_label {
+        display: none!important;
+    }
+    .coderockz-woo-delivery-container-header {
+        display: none!important;
+    }
+
+    .wcpdf-extensions-ad {
+        display: none!important;
+    }
+    h2.nav-tab-wrapper{
+        display:none!important;
+    }
+    .dots-header{display:none!important;}
+    .dotstore_plugin_sidebar{display:none!important;}
+    #adminmenu, #adminmenuback, #adminmenuwrap {
+        background: #1e1e1e;
+        height: 100%!important;
+    }
+    .lddfw_admin_bar{
+        display:none!important;
+    }
+    /* Wallet Ext */
+    .addons-featured{
+        display:none!important;
+    }
+
+    #wp-admin-bar-litespeed-menu{
+        display:none!important;
+    }
+
+    #toplevel_page_dashboard{background:darkcyan}
+    .application-passwords{display:none!important;}
+
+    /* PDF INVOICES */
+    .wf_settings_left .nav-tab-wrapper a:nth-child(3){display:none!important}
+    .wf_settings_left .nav-tab-wrapper a:nth-child(4){display:none!important}
+    .wf_settings_right{display:none!important}
+
+    /* Customize Page */
+    #accordion-section-themes{display:none!important;}
+    #customize-info{display:none!important;}
+    #customize-theme-controls{background:#fff;}
+    #accordion-panel-general{display:none!important;}
+    #accordion-section-layout{display:none!important;}
+    #accordion-panel-nav_menus{display:none!important;}
+    #accordion-panel-widgets{display:none!important;}
+    #accordion-panel-blog{display:none!important;}
+    #accordion-section-pages{display:none!important;}
+    #accordion-panel-footer{display:none!important;}
+    #accordion-section-custom_css{display:none!important;}
+    /* .customize-info{display: none !important;} */
+    /* .customize-section-back{display: none !important;} */
+    .customize-panel-back{display:none!important;}
+    .customize-pane-parent{display:none!important;}
+    #sub-accordion-section-maintenance .customize-section-description-container{display: none !important;}
+
+    .n2_dashboard_manager_review, .n2_dashboard_manager_upgrade_pro{display: none !important;}
+    .n2_nav_bar__menu .n2_nav_bar__menuitem:first-child{display: none !important;}
+    .litespeed-h1,.litespeed-desc,.updated{display:none!important;}

